@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <link href="/static/ajstyles.css" rel="stylesheet">
+        <title>Whitemoon</title>
+    </head>
+
+    <header>
+        <h1>Whitemoon</h1>
+        <div class="slogan">
+            <p><i>Giving SEO back to the people</i></p>
+        </div>
+    </header>
+
+    <body>
+        <div id="page">
+        <textarea id="text" class="textarea" placeholder="Enter your text here..."></textarea>
+        <input type="text" id="focuskeyword" placeholder="keyword"><br>
+        <button id="mybtn" onclick="button()">Submit</button>
+        <table id="mytable" class="hidden">
+            <tr>
+                <th><b>SEO score</b></th>
+                <th id="mainscore"></th>
+            </tr>
+
+            <tr>
+                <td>Keyword density</td>
+                <td id="keywordd"></td>
+            </tr>
+            <tr>
+                <td>Keyword density %</td>
+                <td id="keywordd%"></td>
+            </tr>
+            <tr>
+                <td>Word count</td>
+                <td id="count"></td>
+            </tr>
+        </table>
+        </div>
+        <script>
+            function countWords(text) {
+                // Get the input text value
+                var text = document
+                    .getElementById("text").value;
+                // Initialize the word counter
+                var numWords = 0;
+
+                // Loop through the text
+                // and count spaces in it
+                for (var i = 0; i < text.length; i++) {
+                    var currentCharacter = text[i];
+
+                    // Check if the character is a space
+                    if (currentCharacter == " ") {
+                        numWords += 1;
+                    }
+                }
+                numWords += 1;
+
+                return numWords;
+            }
+
+            function countkeyword(text, keyword) {
+
+                var text = document.getElementById("text").value;
+
+                var keyword = document.getElementById("focuskeyword").value;
+
+                let keywordCount = 0;
+                let lctext = text.toLowerCase();
+
+                let lckeyword = keyword.toLowerCase();
+
+                for (var i = 0; i < lctext.length; i += 1) {
+                    if (lctext.substring(i, i + lckeyword.length) === lckeyword) {
+                        keywordCount += 1;
+                    }
+                }
+
+                return keywordCount;
+            }
+
+            function keywordPercent(text, keyword) {
+                var nbKeyword = countkeyword(text, keyword);
+                var nbwords = countWords(text);
+
+                var keywordPercentage = nbKeyword * nbwords / 100;
+
+                return keywordPercentage;
+            }
+
+            function displayKeywordPercentage() {
+                var text = document.getElementById("text").value;
+                var keyword = document.getElementById("focuskeyword").value;
+                var keywordPercentage = keywordPercent(text, keyword);
+                document.getElementById("keywordd%").innerHTML = keywordPercentage;
+            }
+
+            function displayKeyworddensity() {
+                var keywordd = countkeyword(document.getElementById("text").value, document.getElementById("focuskeyword").value);
+                document.getElementById("keywordd").innerHTML = keywordd;
+            }
+
+            function b() {
+                var element = document.getElementById("mytable");
+                const textField = document.getElementById("text");
+                const keywordField = document.getElementById("focuskeyword");
+                if (textField === " "){
+                    alert("Text field is empty");
+                }
+                else if (keywordField === " "){
+                    alert("Keyword field is empty");
+                }
+                else{
+                    element.classList.toggle("hidden");
+                }
+            }
+
+            function displaynbwords() {
+
+                var nbWords = countWords();
+
+                document.getElementById("count").innerHTML = nbWords;
+            }
+
+            function nbWordScore() {
+
+                const words = countWords();
+
+                let wordScore = 0;
+
+                if (words < 200) {
+                    wordScore = 0;
+                } else if (words > 200) {
+                    wordScore = 20;
+                } else if (words > 400) {
+                    wordScore = 40;
+                } else if (words > 500) {
+                    wordScore = 50;
+                } else if (words > 600) {
+                    wordScore = 60;
+                } else if (words > 800) {
+                    wordScore = 80;
+                } else if (words >= 1000) {
+                    wordScore = 100;
+                }
+                return wordScore;
+            }
+
+            function keywordDensityScore() {
+
+                const keywordCount = keywordPercent(document.getElementById("text").value, document.getElementById("focuskeyword").value);
+                let keywordCountScore = 0;
+
+                if (keywordCount == 0) {
+                    keywordCountScore = 0;
+                } else if (keywordCount <= 1) {
+                    keywordCountScore = 20;
+                } else if (keywordCount > 1) {
+                    keywordCountScore = 60;
+                } else if (keywordCount == 2.5) {
+                    keywordCountScore = 100;
+                } else if (keywordCount > 2.5){
+                    keywordCountScore = 80;
+                }
+                return keywordCountScore;
+            }
+            function seoScore() {
+                const wordCountScore = nbWordScore();
+                const keywordScore = keywordDensityScore();
+
+
+                let score = wordCountScore + keywordScore / 2;
+                return score;
+
+            }
+            function displaySeoScore(){
+                const score = seoScore();
+                document.getElementById("mainscore").innerHTML = score;
+
+            }
+
+            function button() {
+                b();
+                displaynbwords();
+                displayKeyworddensity();
+                displayKeywordPercentage();
+                displaySeoScore();
+
+            }
+            /*function contact(){
+                document.getElementById("page").innerHTML = contact.html;
+            }
+            function about(){
+                document.getElementById("page").innerHTML = about.html;
+            }*/
+
+        </script>
+    </body>
+    <footer>
+        <div class="footerstyling">
+            <u><a href="contact.html">Contact</a></u>-<u><a href="about.html">About</a></u>
+        </div>
+    </footer>
+    </html>

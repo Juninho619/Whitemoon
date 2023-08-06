@@ -1,0 +1,45 @@
+header{
+    background-color: black;
+    border-style: solid;
+}
+
+
+h1{
+    color: white;
+}
+
+.slogan{
+    font-size: medium;
+    color: white;
+}
+
+body{
+    background-color: gray;
+
+}
+
+
+
+footer{
+    background-color: lightgrey;
+    border-style: solid;
+    position:absolute;
+    /*bottom:0;*/
+    width:100%;
+    height:60px;   /* Height of the footer */
+
+ }
+
+ textarea{
+    width: 566px;
+    height: 393px;
+ }
+
+.hidden {
+    display: none;
+}
+
+.footerstyling{
+    text-align: center;
+}
+
